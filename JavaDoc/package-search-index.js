@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.ZakAdv"},{"l":"com.ZakAdv.hra"},{"l":"com.ZakAdv.inventar"},{"l":"com.ZakAdv.postavy"},{"l":"com.ZakAdv.prikazy"},{"l":"com.ZakAdv.vec"},{"l":"com.ZakAdv.zakladniInterfaces"}];updateSearchResults();
