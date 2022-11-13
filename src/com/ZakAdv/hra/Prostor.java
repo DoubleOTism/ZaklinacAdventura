@@ -29,11 +29,15 @@ public class Prostor {
     private Set<Prostor> vychody;   // obsahuje sousední místnosti
     private Map<String, Vec> veci = new HashMap<>();
     private Map<String, Postava> postavy = new HashMap<>();
+    private Double x;
+    private Double y;
 
     /**
      * Vytvoření prostoru se zadaným popisem
      */
-    public Prostor(String nazev, String screenNazev, String popis) {
+    public Prostor(String nazev, String screenNazev, String popis, Double x, Double y) {
+        this.x = x;
+        this.y = y;
         this.herniNazev = screenNazev;
         this.popis = popis;
         this.nazev = nazev;
@@ -84,7 +88,7 @@ public class Prostor {
      * Vrací popis věcí v prostoru
      * @return vrací předměty v aktuální místnosti
      */
-    private String popisVeci() {
+    public String popisVeci() {
         String vracenyText = "Vidíš: ";
         if (veci.size() > 0) {
             for (Map.Entry<String, Vec> vec : veci.entrySet()) {
@@ -101,8 +105,8 @@ public class Prostor {
      *
      * @return jména postav
      */
-    private String popisPostavy() {
-        String vracenyText = "postavy: ";
+    public String popisPostavy() {
+        String vracenyText = "Postavy: ";
         if (postavy.size() > 0) {
             for (Map.Entry<String, Postava> postava : postavy.entrySet()) {
                 vracenyText += postava.getValue().getHerniJmeno().substring(0, 1).toUpperCase() + postava.getValue().getHerniJmeno().substring(1) + ", ";
@@ -231,5 +235,12 @@ public class Prostor {
         return veci.remove(nazev);
     }
 
+    public Double getX() {
+        return x;
+    }
+
+    public Double getY() {
+        return y;
+    }
 
 }

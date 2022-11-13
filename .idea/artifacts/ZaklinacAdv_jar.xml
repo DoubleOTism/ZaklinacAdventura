@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="ZaklinacAdv:jar">
-    <output-path>$PROJECT_DIR$</output-path>
+  <artifact type="jar" name="ZaklinacAdv:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ZaklinacAdv_jar</output-path>
     <root id="archive" name="ZaklinacAdv.jar">
       <element id="module-output" name="ZaklinacAdv" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/junit/junit/4.13.1/junit-4.13.1.jar" path-in-jar="/" />

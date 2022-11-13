@@ -3,6 +3,7 @@ package com.ZakAdv.prikazy;
 import com.ZakAdv.hra.HerniPlan;
 import com.ZakAdv.hra.Prostor;
 
+
 /**
  * Třída PrikazJit implementuje pro hru příkaz jít.
  * Tato třída je součástí jednoduché textové hry.
@@ -12,6 +13,7 @@ import com.ZakAdv.hra.Prostor;
  * @created    květen 2005/2021/2022
  **/
 public class PrikazJdi extends Prikaz {
+
 
     /**
      * Konstruktor třídy
@@ -51,4 +53,5 @@ public class PrikazJdi extends Prikaz {
             return sousedniProstor.dlouhyPopis();
         }
     }
+
 }

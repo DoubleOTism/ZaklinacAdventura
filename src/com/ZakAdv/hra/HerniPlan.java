@@ -1,11 +1,15 @@
 package com.ZakAdv.hra;
 
 import com.ZakAdv.inventar.Inventar;
+import com.ZakAdv.observer.Observer;
+import com.ZakAdv.observer.SubjectOfChange;
 import com.ZakAdv.postavy.*;
 import com.ZakAdv.vec.Vec;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Class HerniPlan - třída představující mapu a stav adventury.
@@ -18,13 +22,15 @@ import java.util.Map;
  * @author Erich Pross
  * @version 2021/2022
  */
-public class HerniPlan {
+public class HerniPlan implements SubjectOfChange {
     private final Hra hra;
     private final Inventar inventar = new Inventar();
     private final Map<String, Prostor> prostory = new HashMap<>();
     private final Map<String, Postava> postavy = new HashMap<>();
     private Prostor aktualniProstor;
     private Postava spolecnik;
+
+    private Set<Observer> seznamPozorovatelu = new HashSet<>();
 
     /**
      * zakládá hru
@@ -39,17 +45,17 @@ public class HerniPlan {
     /**
      * Vytváří jednotlivé prostory
      */
-    private void zalozHru() {
-        Prostor chlupatyMedved = new Prostor("hospoda", "hospoda", "v jedné z nejlepších hospod v Chudinské čtvrti Wyzimy, v hospodě u Chlupatého Medvěda");
-        Prostor predHospodou = new Prostor("pred_hospodou", "před_hospodou", "ve špinavé, ale klidné uličce před hospodou");
-        Prostor ulicePredBranou = new Prostor("ulice_pred_branou", "ulice_před_branou", " ve dlouhé ulici táhnoucí se až k branám do Obchodní čtvrti Wyzimy");
-        Prostor brana = new Prostor("brana", "brána", "před mohutnou okovanou bránou do Obchodní čtvrti Wyzimy, je hlídaná stráží.");
-        Prostor temnaUlicka = new Prostor("temna_ulicka", "temna_ulička", "v temné uličce, kam by obyčejný člověk jen tak nešel.");
-        Prostor namesti = new Prostor("namesti", "náměstí", "na menším náměstí, nyní zde moc lidí není.");
-        Prostor dumBylinkare = new Prostor("stanek_bylinkare", "stánek_bylinkáře", "u menšího stánku, je kolem něj cítit krásná vůně bylin");
-        Prostor ulickaZasilka = new Prostor("postranni_ulicka", "postranní_ulička", "v zakrvácené uličce, o zeď je opřený mrtvý zloděj, svírající svoji tašku.");
-        Prostor dumKalkstein = new Prostor ("dum_kalksteina", "dum_kalksteina", "v domě alchymisty a dobrého přítele kalksteina");
-        Prostor dumSavolla = new Prostor ("dum_savolly", "dum_savolly", "v domě překupníka Savolly");
+    public void zalozHru() {
+        Prostor chlupatyMedved = new Prostor("hospoda", "hospoda", "v jedné z nejlepších hospod v Chudinské čtvrti Wyzimy, v hospodě u Chlupatého Medvěda", 150.0, 100.0);
+        Prostor predHospodou = new Prostor("pred_hospodou", "před_hospodou", "ve špinavé, ale klidné uličce před hospodou", 175.0, 125.0);
+        Prostor ulicePredBranou = new Prostor("ulice_pred_branou", "ulice_před_branou", " ve dlouhé ulici táhnoucí se až k branám do Obchodní čtvrti Wyzimy", 200.0, 150.0);
+        Prostor brana = new Prostor("brana", "brána", "před mohutnou okovanou bránou do Obchodní čtvrti Wyzimy, je hlídaná stráží.", 225.0, 175.0);
+        Prostor temnaUlicka = new Prostor("temna_ulicka", "temna_ulička", "v temné uličce, kam by obyčejný člověk jen tak nešel.", 250.0, 200.0);
+        Prostor namesti = new Prostor("namesti", "náměstí", "na menším náměstí, nyní zde moc lidí není.", 275.0, 225.0);
+        Prostor dumBylinkare = new Prostor("stanek_bylinkare", "stánek_bylinkáře", "u menšího stánku, je kolem něj cítit krásná vůně bylin", 300.0, 250.0);
+        Prostor ulickaZasilka = new Prostor("postranni_ulicka", "postranní_ulička", "v zakrvácené uličce, o zeď je opřený mrtvý zloděj, svírající svoji tašku.", 325.0, 275.0);
+        Prostor dumKalkstein = new Prostor ("dum_kalksteina", "dum_kalksteina", "v domě alchymisty a dobrého přítele kalksteina", 350.0, 300.0);
+        Prostor dumSavolla = new Prostor ("dum_savolly", "dum_savolly", "v domě překupníka Savolly", 375.0, 325.0);
 
         /**
          * Nastavuje spojení mezi prostory
@@ -187,7 +193,7 @@ public class HerniPlan {
         hra.setKonecHry(true);
         if(inventar.obsahujeVec("glejt")) {
             if(spolecnik==null) {
-                return "Dostal jsi se ke kr8li Foltestovi a varoval ho před útokem. \n"+ "Odměnil se ti plným měšcem. Vycestoval jsi zpět do Kaer Morhen. \n" + "Gratuluji, máš 1. z 4 konců";
+                return "Dostal jsi se ke králi Foltestovi a varoval ho před útokem. \n"+ "Odměnil se ti plným měšcem. Vycestoval jsi zpět do Kaer Morhen. \n" + "Gratuluji, máš 1. z 4 konců";
             }
             else if(spolecnik.getJmeno()=="vesemir") {
                 return "Společně s Vesemirem jsi se dostal do hradu a varoval krále Foltesta \n" +
@@ -240,7 +246,10 @@ public class HerniPlan {
      */
     public void setAktualniProstor(Prostor prostor) {
         aktualniProstor = prostor;
+        notifyObservers();
     }
+
+
 
     /**
      * vrací všechny prostory
@@ -266,4 +275,20 @@ public class HerniPlan {
         return this.inventar;
     }
 
+    @Override
+    public void register(Observer observer) {
+        seznamPozorovatelu.add(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : seznamPozorovatelu) {
+            observer.update();
+        }
+    }
+
+    @Override
+    public void unregister(Observer observer) {
+
+    }
 }

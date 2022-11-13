@@ -27,7 +27,7 @@ public class PrikazSeber extends Prikaz {
             // pokud chybí druhé slovo, tak ....
             return "Co mam sebrat?";
         } else if (parametry.length == 1 && this.getHerniPlan().getAktualniProstor().obsahujeVec(parametry[0])) {
-            // pokud je druhe slovo takové, které lze vložit do kabelky
+            // pokud je druhe slovo takové, které lze vložit do brašny
             Vec vec = this.getHerniPlan().getAktualniProstor().vratVec(parametry[0]);
             if (vec.getLzeVzit()) {
                 this.getHerniPlan().getInventar().vlozVec(this.getHerniPlan().getAktualniProstor().odeberVec(parametry[0]));

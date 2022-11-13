@@ -1,9 +1,13 @@
 package com.ZakAdv.inventar;
 
+import com.ZakAdv.observer.Observer;
+import com.ZakAdv.observer.SubjectOfChange;
 import com.ZakAdv.vec.Vec;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Class Inventar - inventar, kde se uchovavani sebrane predmety
@@ -12,9 +16,14 @@ import java.util.Map;
  * @version 2021/2022
  */
 
-public class Inventar {
+public class Inventar implements SubjectOfChange {
     private Map<String, Vec> veci = new HashMap<>();
     private int penize = 50;
+    private Set<Observer> observers = new HashSet<>();
+
+    public Inventar () {
+        veci = new HashMap<String, Vec>();
+    }
 
     /**
      * zkontroluje, jestli inventar neni plny a vlozi vec do inventare
@@ -24,6 +33,7 @@ public class Inventar {
     public Vec vlozVec(Vec vec) {
         if (!jePlny()) {
             veci.put(vec.getNazev(), vec);
+            notifyObservers();
             if (veci.containsKey(vec.getNazev())) return vec;
         }
         return null;
@@ -86,6 +96,10 @@ public class Inventar {
         return veci.containsKey(nazev);
     }
 
+    public Set<String> getMnozinaNazvuVeciVInventari() {
+        return veci.keySet();
+    }
+
 
     /**
      * odebere věc z inventáře
@@ -94,6 +108,7 @@ public class Inventar {
     public Vec odeberVec(String nazev) {
         Vec vec = veci.get(nazev);
         veci.remove(nazev);
+        notifyObservers();
         return vec;
     }
 
@@ -106,5 +121,23 @@ public class Inventar {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void register(Observer observer) {
+        this.observers.add(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
+
+    }
+
+    @Override
+    public void unregister(Observer observer) {
+        this.observers.remove(observer);
     }
 }
