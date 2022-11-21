@@ -8,6 +8,10 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+
+import javax.swing.*;
+import java.util.List;
 
 
 // Class tvorici vypis postav
@@ -16,11 +20,13 @@ import javafx.scene.text.Font;
 public class PanelVeci implements Observer {
 
 
-    private ObservableList<String> observableList = FXCollections.observableArrayList();
-    private HerniPlan herniPlan;
-    private ScrollPane scrollPane = new ScrollPane();
+
+    private TextArea textVeci = new TextArea();
+
     private ListView listView = new ListView();
-    private VBox vBox = new VBox();
+    private HerniPlan herniPlan;
+    private ObservableList<String> observableList = FXCollections.observableArrayList();
+
 
 
     public PanelVeci(Hra hra) {
@@ -29,34 +35,34 @@ public class PanelVeci implements Observer {
         herniPlan.register(this);
 
         nastavVeci();
-        listView.setMaxHeight(150);
-        listView.setMaxWidth(240);
-        listView.setPrefWidth(243);
-        listView.setPrefHeight(100);
-        scrollPane.setPrefHeight(150);
+        textVeci.setMaxHeight(30);
+        textVeci.setMaxWidth(245);
+        textVeci.setPrefWidth(243);
+        textVeci.setPrefHeight(20);
+        textVeci.setEditable(false);
 
 
 
     }
-    private void nastavVeci() {
+    public void nastavVeci() {
         update();
     }
-
-    public ScrollPane getScrollVeci() {
-        return scrollPane;
+    public ObservableList getObservableListVeci() {
+        return observableList;
     }
 
     @Override
     public void update() {
+        observableList.clear();
+        observableList.removeAll();
         String stringVeci = herniPlan.getAktualniProstor().popisVeci();
+        textVeci.setText(stringVeci);
         String[] splited = stringVeci.split("\\s+");
-        ObservableList<String> strList = FXCollections.observableArrayList(splited);
-        ListView<String> listView = new ListView<>(strList);
-        listView.getItems().remove(0);
-        Label popisek = new Label("Předměty v okolí: ");
-        popisek.setFont(new Font("Arial", 15));
-        vBox.getChildren().addAll(popisek, listView);
-        scrollPane.setContent(vBox);
+        observableList.addAll(splited);
+        observableList.remove(0);
+        listView.setItems(observableList);
+
+
     }
 
 }

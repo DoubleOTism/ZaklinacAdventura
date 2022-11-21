@@ -109,7 +109,7 @@ public class Prostor {
         String vracenyText = "Postavy: ";
         if (postavy.size() > 0) {
             for (Map.Entry<String, Postava> postava : postavy.entrySet()) {
-                vracenyText += postava.getValue().getHerniJmeno().substring(0, 1).toUpperCase() + postava.getValue().getHerniJmeno().substring(1) + ", ";
+                vracenyText += postava.getValue().getHerniJmeno().substring(0, 1).toUpperCase() + postava.getValue().getHerniJmeno().substring(1) + "  ";
             }
             return vracenyText.substring(0, vracenyText.length() - 2);
         } else {

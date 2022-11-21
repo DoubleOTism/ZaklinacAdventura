@@ -6,8 +6,8 @@ import com.ZakAdv.observer.Observer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
+
+import java.util.List;
 
 
 // Class tvorici vypis postav
@@ -17,12 +17,12 @@ public class PanelPostav implements Observer {
 
 
 
-    private ObservableList<String> observableListPostavy = FXCollections.observableArrayList();
+
     private TextArea textPostavy = new TextArea();
     private HerniPlan herniPlan;
-    private VBox vBox = new VBox();
-    private ScrollPane scrollPane = new ScrollPane();
     private TextArea postavy = new TextArea();
+    private ListView listView = new ListView();
+    private ObservableList<String> observableList = FXCollections.observableArrayList();
 
     public PanelPostav(Hra hra) {
 
@@ -38,28 +38,30 @@ public class PanelPostav implements Observer {
         textPostavy.setPrefWidth(243);
         textPostavy.setPrefHeight(20);
         textPostavy.setEditable(false);
-        scrollPane.setMaxHeight(150);
-        scrollPane.setPrefHeight(150);
     }
     private void nastavPostavy() {
         update();
     }
 
-    public ScrollPane getScrollPostavy() {
-        return scrollPane;
+    public TextArea getPostavy() {
+        return textPostavy;
+    }
+
+    public ObservableList getObservableListPostav() {
+        return observableList;
     }
 
     @Override
     public void update() {
+        observableList.clear();
+        observableList.removeAll();
         String stringPostavy = herniPlan.getAktualniProstor().popisPostavy();
+        textPostavy.setText(stringPostavy);
         String[] splited = stringPostavy.split("\\s+");
-        ObservableList<String> strList = FXCollections.observableArrayList(splited);
-        ListView<String> listView = new ListView<>(strList);
-        listView.getItems().remove(0);
-        Label popisek = new Label("Postavy v okolí: ");
-        popisek.setFont(new Font("Arial", 15));
-        vBox.getChildren().addAll(popisek, listView);
-        scrollPane.setContent(vBox);
+        observableList.addAll(splited);
+        observableList.remove(0);
+        listView.setItems(observableList);
+
 
 
 

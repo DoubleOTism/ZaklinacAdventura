@@ -1,9 +1,11 @@
 package com.ZakAdv.main;
 
 import com.ZakAdv.gui.*;
+import com.ZakAdv.hra.HerniPlan;
 import com.ZakAdv.hra.Hra;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -15,24 +17,49 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.web.PopupFeatures;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Callback;
 
-import java.io.IOException;
+import java.net.URL;
 
 
-public class AdventuraZaklad extends Application {
+public class AdventuraZaklad extends Application  {
+
 
 
     public static void main(String[] args) {
         Application.launch(args);
     }
+    Hra hra = new Hra();
+    HerniPlan herniPlan = new HerniPlan(hra);
+    PanelVychodu panelVychodu = new PanelVychodu(hra);
+    PanelPostav panelPostav = new PanelPostav(hra);
+
+    PanelVeci panelVeci = new PanelVeci(hra);
+    ObservableList observableList = panelVychodu.getObservableList();
+    ObservableList observableListPostavy = panelPostav.getObservableListPostav();
+    ObservableList observableListVeci = panelVeci.getObservableListVeci();
+    private ListView<String> listVychody = new ListView<>(observableList);
+    private ListView<String> listPostavy = new ListView<>(observableListPostavy);
+    private ListView<String> listVeci = new ListView<>(observableListVeci);
+    private TextArea textArea = new TextArea();
+    String vec = herniPlan.getAktualniProstor().popisVeci();
+
 
     
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) throws Exception {
+
 
         // setup JavaFX
         BorderPane borderPane = new BorderPane();
@@ -42,41 +69,46 @@ public class AdventuraZaklad extends Application {
         VBox vBoxRight = new VBox();
         primaryStage.setScene(scene);
         primaryStage.setWidth(1080.0);
-        primaryStage.setHeight(720.0);
-
-
+        primaryStage.setHeight(620.0);
+        scene.getRoot().setStyle("-fx-base:black;" + "-fx-text-inner-color: #ffffff;");
 
 
 
         // vytvoreni full-duplex komunikace mezi pocitacem a uzivatelem
         // 1. smer komunikace: od pocitace k uzivateli
 
-        TextArea textArea = new TextArea();
+
         textArea.setEditable(false);
-        Hra hra = new Hra();
+        textArea.setFont(Font.font("Arial", FontWeight.BOLD, 12));
 
 
 
 
-        // 2. smer komunikace: od uzivatele k pocitaci
+
+                // 2. smer komunikace: od uzivatele k pocitaci
 
         // nachystani grafickych prvku
         TextField uzivatelskyVstup = new TextField(); // lisi se od TextArea zejména svými eventy, konkrétně zpracováním klávesy Enter.
         Label label = new Label("Zadej příkaz: ");
         label.setFont(Font.font("Arial", FontWeight.BLACK, 14.0));
+        uzivatelskyVstup.setFont(Font.font("Arial", FontWeight.BOLD, 14 ));
+
 
         FlowPane flowPane = new FlowPane();
         flowPane.getChildren().addAll(label, uzivatelskyVstup);
         flowPane.setAlignment(Pos.CENTER);
 
-        // zajisteni zpracovani prikazu
+        // zajisteni zpracovani prikazu + ukončení pomocí příkazu ukončit
         uzivatelskyVstup.setOnAction(event -> {
             String lokalniPromennaObsahujiciUzivateluvVstup = uzivatelskyVstup.getText();
             String lokalniPromennaObsahujiciOdpovedProgramu = hra.zpracujPrikaz(lokalniPromennaObsahujiciUzivateluvVstup);
-            textArea.appendText("\n" + lokalniPromennaObsahujiciOdpovedProgramu + "\n");
                 uzivatelskyVstup.clear();
+                if (lokalniPromennaObsahujiciUzivateluvVstup.equals("ukoncit")) {
+                ukoncitPrikaz();
+                borderPane.setDisable(true);
+                } else { textArea.appendText("\n" + lokalniPromennaObsahujiciOdpovedProgramu + "\n");};
 
-            // DU: Udělat, aby nešlo zadávat příkazy po skončení hry.
+
         });
 
 
@@ -84,8 +116,6 @@ public class AdventuraZaklad extends Application {
         HraciPlocha hraciPlocha = new HraciPlocha(hra);
         AnchorPane anchorPane = hraciPlocha.getAnchorPane();
 
-        // Pridani PaneluVychodu
-        PanelVychodu panelVychodu = new PanelVychodu(hra);
 
         // Pridani PaneluBatohu
         PanelBatohu panelBatohu = new PanelBatohu(hra);
@@ -93,38 +123,164 @@ public class AdventuraZaklad extends Application {
         // Pridani PaneluPenez
         PanelPenez panelPenez = new PanelPenez(hra);
 
-        //Pridani PaneluPostav
-        PanelPostav panelPostav = new PanelPostav(hra);
-
         //Pridani PaneluVeci
         PanelVeci panelVeci = new PanelVeci(hra);
 
 
+        //Pridani funkce pro proklikavani se do jinych prostoru
+        listVychody.setMaxHeight(125);
+        listVychody.setCellFactory(stringListView -> new ListCell<String>() {
+            @Override
+            protected void updateItem(String nazev, boolean empty) {
+                super.updateItem(nazev, empty);
+                if(!empty) {
+                    setText(nazev);
+                    setStyle("-fx-text-fill: #ffffff;");
+                    setFont(Font.font("Arial", FontWeight.BOLD, 12));
+                } else {
+                    setText(null);
+                }
+            }
+        });
+        listVychody.setOnMouseClicked(event -> {
+            String selected = listVychody.getSelectionModel().getSelectedItem();
+            if (selected == null) {
+            } else {
+                hra.zpracujPrikaz("jdi " + selected);
+                textArea.appendText("\n----------------------------------------------------------------------------------------------");
+                textArea.appendText(hra.getHerniPlan().getAktualniProstor().dlouhyPopis());
+                textArea.appendText("\n----------------------------------------------------------------------------------------------");
+            }
+
+        });
+
+        //Pridani funkce pro proklikavani se dialogy a nastavení konce
+        listPostavy.setMaxHeight(125);
+        listPostavy.setCellFactory(stringListView -> new ListCell<String>() {
+            @Override
+            protected void updateItem(String nazev, boolean empty) {
+                super.updateItem(nazev, empty);
+                if(!empty) {
+                    setText(nazev);
+                    setStyle("-fx-text-fill: #ffffff;");
+                    setFont(Font.font("Arial", FontWeight.BOLD, 12));
+                } else {
+                    setText(null);
+                }
+            }
+        });
+        listPostavy.setOnMouseClicked(event -> {
+            String selected = listPostavy.getSelectionModel().getSelectedItem();
+            if (selected == null) {
+            } else {
+                String selectedPostava = listPostavy.getSelectionModel().getSelectedItem().toLowerCase();
+                hra.zpracujPrikaz("promluvit " + selectedPostava);
+                if (selectedPostava.equals("wyzimska_straz")) {
+                    textArea.appendText("\n----------------------------------------------------------------------------------------------\n");
+                    String textPostavy = hra.getHerniPlan().getAktualniProstor().vratPostavu(selectedPostava).mluvit();
+                    textArea.appendText(textPostavy);
+                    textArea.appendText("\n----------------------------------------------------------------------------------------------");
+                    flowPane.setDisable(true);
+                    listVychody.setDisable(true);
+                    listPostavy.setDisable(true);
+                }else {
+                    textArea.appendText("\n----------------------------------------------------------------------------------------------\n");
+                    String textPostavy = hra.getHerniPlan().getAktualniProstor().vratPostavu(selectedPostava).mluvit();
+                    textArea.appendText(textPostavy);
+                    textArea.appendText("\n----------------------------------------------------------------------------------------------");
+                }
+            }
+
+        });
+
+        //Pridani funkce pro proklikavani se skrze veci
+        listVeci.setMaxHeight(125);
+        listVeci.setCellFactory(stringListView -> new ListCell<String>() {
+            @Override
+            protected void updateItem(String nazev, boolean empty) {
+                super.updateItem(nazev, empty);
+                if(!empty) {
+                    setText(nazev);
+                    setStyle("-fx-text-fill: #ffffff;");
+                    setFont(Font.font("Arial", FontWeight.BOLD, 12));
+                } else {
+                    setText(null);
+                }
+            }
+        });
+        listVeci.setOnMouseClicked(event -> {
+            String selected = listVeci.getSelectionModel().getSelectedItem();
+            if (selected == null) {
+                textArea.appendText("Vyber věc k sebrání z listu.");
+            } else {
+                switch (selected) {
+                    case "nic":
+                        textArea.appendText("\nGeralt: V okolí není předmět, co by se mi mohl hodit");
+                        break;
+                    case "popelnice":
+                        textArea.appendText("\nGeralt: Popelnici si do brašny nevložím.");
+                        break;
+                    case "rozlite_korbely_piva":
+                        textArea.appendText("\nGeralt: To si radši brát nebudu.");
+                        break;
+                    case "glejt":
+                        textArea.appendText("\nGeralt: To si radši koupím, nebudu obírat starého kamaráda.");
+                        break;
+                    case "magicka_pasta":
+                        textArea.appendText("\nGeralt: Se Savollou si radši zahrávat nebudu, vím čeho je schopný. Radši se ho zeptám, jestli by to neprodal.");
+                        break;
+                    default:
+                        hra.zpracujPrikaz("seber " + selected );
+                        textArea.appendText("\nVložil jsi: " + selected + " do brašny.");
+                        hra.getHerniPlan().getAktualniProstor().odeberVec(selected);
+                        panelVeci.nastavVeci();
+                        observableListVeci.clear();
+                        panelVeci.update();
+                        String stringVeci = hra.getHerniPlan().getAktualniProstor().popisVeci();
+                        String[] splited = stringVeci.split("\\s+");
+                        observableListVeci.addAll(splited);
+                        observableListVeci.remove(0);
+                        listVeci.setItems(observableListVeci);
+
+
+
+                }
+            }
+
+        });
+
+
+
+
+
 
         //Vrchol okna - Batoh, HraciPlocha, Mistnosti
-        hBoxTop.getChildren().addAll(panelBatohu.getBatohScroll(), anchorPane, panelVychodu.getVychodyScroll());
-        hBoxTop.setAlignment(Pos.TOP_LEFT);
+        Label popisekPredmety = new Label("Předměty v okolí (klikni):");
+        Label popisekPostavy = new Label("Postavy v okolí (klikni): " );
+        Label popisekProstory = new Label("Dostupné prostory (klikni): " );
+        popisekPredmety.setFont(Font.font("Arial", FontWeight.BOLD, 15));
+        popisekPostavy.setFont(Font.font("Arial", FontWeight.BOLD, 15));
+        popisekProstory.setFont(Font.font("Arial", FontWeight.BOLD, 15));
+        VBox vBoxLeftTop = new VBox(popisekProstory , listVychody, popisekPostavy, listPostavy, popisekPredmety, listVeci);
+        vBoxLeftTop.setMaxHeight(400);
+        hBoxTop.getChildren().addAll(panelBatohu.getBatohScroll(), anchorPane, vBoxLeftTop);
+        hBoxTop.setAlignment(Pos.CENTER);
         borderPane.setTop(hBoxTop);
 
         //Stred Okna - Vypis hry
-        textArea.setMaxWidth(780);
+        textArea.setMaxWidth(850);
         borderPane.setCenter(textArea);
 
         //Spodni cast okna - vstup
-        Label labelVeci = new Label("Věci v tvém okolí:");
-        labelVeci.setFont(new Font("Arial", 15));
         hBoxBottom.getChildren().addAll(flowPane);
         hBoxBottom.setAlignment(Pos.CENTER);
         borderPane.setBottom(hBoxBottom);
         //Pravá cast okna - vypisy postav a predmetu
         Label popisekPenize = new Label("V měšci máš: " );
-        popisekPenize.setFont(new Font("Arial", 15));
-        vBoxRight.getChildren().addAll(panelPostav.getScrollPostavy(), panelVeci.getScrollVeci(), popisekPenize, panelPenez.getTextPenize());
+        popisekPenize.setFont(Font.font("Arial", FontWeight.BOLD, 15));
+        panelPenez.getTextPenize().setFont(Font.font("Arial", FontWeight.BOLD, 12));
+        vBoxRight.getChildren().addAll(popisekPenize, panelPenez.getTextPenize());
         borderPane.setRight(vBoxRight);
-
-
-
-
 
 
         // Pridani menu
@@ -136,11 +292,19 @@ public class AdventuraZaklad extends Application {
         menuBar.getMenus().addAll(menu1, menu2);
         MenuItem menuItem1 = new MenuItem("Restart hry / Nová hra");
         MenuItem menuItem2 = new MenuItem("Ukončit hru");
-        MenuItem menuItem3 = new MenuItem("Nápověda");
+        MenuItem menuItem3 = new MenuItem("Příručka");
         MenuItem menuItem4 = new MenuItem("O aplikaci");
+        menuItem1.setAccelerator(new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN));
+        menuItem2.setAccelerator(new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN));
+        menuItem3.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
+        menuItem4.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
 
              //Menu: Ukoncit hru
-        menuItem2.setOnAction((ActionEvent e) -> System.exit(0));
+        EventHandler<ActionEvent> endAction = e -> {
+            ukoncitMenu();
+            borderPane.setDisable(true);
+        };
+        menuItem2.setOnAction(endAction);
 
             // Menu: O Aplikaci
         Alert about = new Alert(Alert.AlertType.INFORMATION);
@@ -178,11 +342,18 @@ public class AdventuraZaklad extends Application {
                     }
                 });
         });
-            //Menu: Nápověda
-                //Musi zde byt webview
-
-
-
+            //Menu: Dokumentace
+        menuItem3.setOnAction((ActionEvent e) -> {
+            URL url = this.getClass().getResource("/dokumentace.htm");
+            BorderPane webBorderPane = new BorderPane();
+            Stage webStage = new Stage();
+            WebView wv = new WebView();
+            wv.getEngine().load(url.toString());
+            webBorderPane.setCenter(wv);
+            Scene webScene = new Scene(webBorderPane);
+            webStage.setScene(webScene);
+            webStage.show();
+        });
 
 
 
@@ -194,13 +365,36 @@ public class AdventuraZaklad extends Application {
         scene.setRoot(vBox);
 
 
-
+        scene.getRoot().setStyle("-fx-base:black;" + "-fx-text-inner-color: #05ff09;");
         uzivatelskyVstup.requestFocus();
-        textArea.appendText(hra.vratUvitani());
         primaryStage.show();
+        textArea.appendText(hra.vratUvitani());
+
+
+
+
+
     }
-public static void launchGame(String... args){
+public static void launchGame(){
         launch();
 }
+public static void ukoncitPrikaz () {
+    Alert ukoncit = new Alert(Alert.AlertType.INFORMATION);
+    Label labelUkoncit = new Label("Hra byla vypnuta pomocí příkazu ukončit \nPokud chceš hrát znovu, jdi do menu Hra a vyber možnost Restart hry / Nová hra ");
+    labelUkoncit.setWrapText(true);
+    ukoncit.getDialogPane().setContent(labelUkoncit);
+    ukoncit.setTitle("O Aplikaci");
+    ukoncit.show();
+
 }
+public static void ukoncitMenu () {
+        Alert ukoncit = new Alert(Alert.AlertType.INFORMATION);
+        Label labelUkoncit = new Label("Hra byla vypnuta pomocí tlačítka Ukončit hru v menu Hra \nPokud chceš hrát znovu, jdi do menu Hra a vyber možnost Restart hry / Nová hra ");
+        labelUkoncit.setWrapText(true);
+        ukoncit.getDialogPane().setContent(labelUkoncit);
+        ukoncit.setTitle("O Aplikaci");
+        ukoncit.show();
+    }
+}
+
 

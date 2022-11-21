@@ -1,7 +1,10 @@
 package com.ZakAdv.prikazy;
 
+import com.ZakAdv.gui.PanelVeci;
 import com.ZakAdv.hra.HerniPlan;
+import com.ZakAdv.main.AdventuraZaklad;
 import com.ZakAdv.vec.Vec;
+import javafx.scene.layout.Pane;
 
 /**
  * Class PrikazSeber - dedi ze tridy Prikaz
@@ -10,6 +13,7 @@ import com.ZakAdv.vec.Vec;
  * @version 2021/2022
  */
 public class PrikazSeber extends Prikaz {
+
 
     public PrikazSeber(HerniPlan plan) {
         super("seber", plan);
@@ -30,10 +34,11 @@ public class PrikazSeber extends Prikaz {
             // pokud je druhe slovo takové, které lze vložit do brašny
             Vec vec = this.getHerniPlan().getAktualniProstor().vratVec(parametry[0]);
             if (vec.getLzeVzit()) {
+
                 this.getHerniPlan().getInventar().vlozVec(this.getHerniPlan().getAktualniProstor().odeberVec(parametry[0]));
                 return "Vložil jsi: " + vec.getScreenNazev() + " do brašny.";
             } else {
-                return "To nechci";
+                return "To nemůžu jen tak vzít, jedině že by mi to někdo prodal a nebo věnoval,";
             }
 
         }

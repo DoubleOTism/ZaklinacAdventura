@@ -20,6 +20,9 @@ public class HraciPlocha implements Observer {
 
     private AnchorPane anchorPane = new AnchorPane();
     private Circle poziceHrace = new Circle(10.0, Paint.valueOf("red"));
+
+    private Image hrac = new Image(HraciPlocha.class.getResourceAsStream("/hrac.png"), 30, 30, false, false);
+    private ImageView imageViewHrac = new ImageView(hrac);
     private HerniPlan herniPlan;
 
 
@@ -33,10 +36,10 @@ public class HraciPlocha implements Observer {
 
         update();
 
-        Image image = new Image(HraciPlocha.class.getResourceAsStream("/mapa.jpg"), 600.0, 400.0, false, false);
-        ImageView imageView = new ImageView(image);
+        Image mapa = new Image(HraciPlocha.class.getResourceAsStream("/mapa.jpg"), 600.0, 400.0, false, false);
+        ImageView imageViewMapa = new ImageView(mapa);
 
-        anchorPane.getChildren().addAll(imageView, poziceHrace);
+        anchorPane.getChildren().addAll(imageViewMapa, imageViewHrac);
 
     }
 
@@ -47,8 +50,8 @@ public class HraciPlocha implements Observer {
     @Override
     public void update() {
         Prostor aktualniProstor = herniPlan.getAktualniProstor();
-        AnchorPane.setLeftAnchor(poziceHrace, aktualniProstor.getX());
-        AnchorPane.setTopAnchor(poziceHrace, aktualniProstor.getY());
+        AnchorPane.setLeftAnchor(imageViewHrac, aktualniProstor.getX());
+        AnchorPane.setTopAnchor(imageViewHrac, aktualniProstor.getY());
 
     }
 

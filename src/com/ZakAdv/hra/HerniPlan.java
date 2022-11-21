@@ -46,16 +46,16 @@ public class HerniPlan implements SubjectOfChange {
      * Vytváří jednotlivé prostory
      */
     public void zalozHru() {
-        Prostor chlupatyMedved = new Prostor("hospoda", "hospoda", "v jedné z nejlepších hospod v Chudinské čtvrti Wyzimy, v hospodě u Chlupatého Medvěda", 150.0, 100.0);
-        Prostor predHospodou = new Prostor("pred_hospodou", "před_hospodou", "ve špinavé, ale klidné uličce před hospodou", 175.0, 125.0);
-        Prostor ulicePredBranou = new Prostor("ulice_pred_branou", "ulice_před_branou", " ve dlouhé ulici táhnoucí se až k branám do Obchodní čtvrti Wyzimy", 200.0, 150.0);
-        Prostor brana = new Prostor("brana", "brána", "před mohutnou okovanou bránou do Obchodní čtvrti Wyzimy, je hlídaná stráží.", 225.0, 175.0);
-        Prostor temnaUlicka = new Prostor("temna_ulicka", "temna_ulička", "v temné uličce, kam by obyčejný člověk jen tak nešel.", 250.0, 200.0);
-        Prostor namesti = new Prostor("namesti", "náměstí", "na menším náměstí, nyní zde moc lidí není.", 275.0, 225.0);
-        Prostor dumBylinkare = new Prostor("stanek_bylinkare", "stánek_bylinkáře", "u menšího stánku, je kolem něj cítit krásná vůně bylin", 300.0, 250.0);
-        Prostor ulickaZasilka = new Prostor("postranni_ulicka", "postranní_ulička", "v zakrvácené uličce, o zeď je opřený mrtvý zloděj, svírající svoji tašku.", 325.0, 275.0);
-        Prostor dumKalkstein = new Prostor ("dum_kalksteina", "dum_kalksteina", "v domě alchymisty a dobrého přítele kalksteina", 350.0, 300.0);
-        Prostor dumSavolla = new Prostor ("dum_savolly", "dum_savolly", "v domě překupníka Savolly", 375.0, 325.0);
+        Prostor chlupatyMedved = new Prostor("hospoda", "hospoda", "v jedné z nejlepších hospod v Chudinské čtvrti Wyzimy, v hospodě u Chlupatého Medvěda", 453.0, 140.0);
+        Prostor predHospodou = new Prostor("pred_hospodou", "před_hospodou", "ve špinavé, ale klidné uličce před hospodou", 415.0, 155.0);
+        Prostor ulicePredBranou = new Prostor("ulice_pred_branou", "ulice_před_branou", " ve dlouhé ulici táhnoucí se až k branám do Obchodní čtvrti Wyzimy", 183.0, 188.0);
+        Prostor brana = new Prostor("brana", "brána", "před mohutnou okovanou bránou do Obchodní čtvrti Wyzimy, je hlídaná stráží.", 163.0, 250.0);
+        Prostor temnaUlicka = new Prostor("temna_ulicka", "temna_ulička", "v temné uličce, kam by obyčejný člověk jen tak nešel.", 435.0, 100.0);
+        Prostor namesti = new Prostor("namesti", "náměstí", "na menším náměstí, nyní zde moc lidí není.", 307.0, 152.0);
+        Prostor dumBylinkare = new Prostor("stanek_bylinkare", "stánek_bylinkáře", "u menšího stánku, je kolem něj cítit krásná vůně bylin", 330.0, 230.0);
+        Prostor ulickaZasilka = new Prostor("postranni_ulicka", "postranní_ulička", "v zakrvácené uličce, o zeď je opřený mrtvý zloděj, svírající svoji tašku.", 280.0, 270.0);
+        Prostor dumKalkstein = new Prostor ("dum_kalksteina", "dum_kalksteina", "v domě alchymisty a dobrého přítele kalksteina", 270.0, 85.0);
+        Prostor dumSavolla = new Prostor ("dum_savolly", "dum_savolly", "v domě překupníka Savolly", 400.0, 230.0);
 
         /**
          * Nastavuje spojení mezi prostory
@@ -84,14 +84,13 @@ public class HerniPlan implements SubjectOfChange {
          * Definuje věci, které se ve hře vyskytují
          */
         Vec bilyracek = new Vec("bily_racek", "bily_racek", true);
-        Vec fisstech = new Vec("krabicka_s_fisstechem", "krabička_s_fisstechem", true);
-        Vec pasta = new Vec("magicka_pasta", "magická_pasta", false);
+        Vec fisstech = new Vec("krabicka_s_fisstechem", "krabicka_s_fisstechem", true);
+        Vec pasta = new Vec("magicka_pasta", "magicka_pasta", false);
         Vec glejt = new Vec("glejt", "glejt", false);
-        Vec stary_glyf = new Vec("stary_glyf", "starý_glyf", true);
+        Vec stary_glyf = new Vec("stary_glyf", "stary_glyf", true);
         Vec heliotrop = new Vec("runa_heliotrop", "runa_heliotrop", true);
-        Vec zasilka = new Vec("zasilka", "zásilka", true);
-        Vec lavice_se_stolem = new Vec("lavice_se_stolem","lavice_se_stolem", false);
-        Vec korbel_piva = new Vec("rozlité_korbely_piva","rozlité_korbely_piva", false);
+        Vec zasilka = new Vec("zasilka", "zasilka", true);
+        Vec korbel_piva = new Vec("rozlité_korbely_piva","rozlite_korbely_piva", false);
         Vec popelnice = new Vec("popelnice", "popelnice", false);
         pasta.setCena(500);
         heliotrop.setCena(250);
@@ -100,8 +99,6 @@ public class HerniPlan implements SubjectOfChange {
         bilyracek.setCena(45);
         zasilka.setCena(100);
         temnaUlicka.vlozVec(fisstech);
-        namesti.vlozVec(lavice_se_stolem);
-        chlupatyMedved.vlozVec(lavice_se_stolem);
         chlupatyMedved.vlozVec(korbel_piva);
         ulickaZasilka.vlozVec(popelnice);
         ulicePredBranou.vlozVec(stary_glyf);
@@ -111,18 +108,18 @@ public class HerniPlan implements SubjectOfChange {
         /**
          * Interakce s dealerem fisstechu
          */
-        ProdavacFisstechu prodavacFisstechu = new ProdavacFisstechu("dealer_fisstechu", "dealer_fisstechu",fisstech, null, "Hej, ty, co chceš? \n" + "Geralt: Co prodáváš? \n" + "Dealer_fisstechu: Fisstech, ale neříkej to tak nahlas. Někde jsem ztratil krabičku, dostaneš za ní 100 orénů","Děkuji mockrát, dobrodinče","Kdybys nebyl zaklínač, tak bych tě bral za blázna","To si s radostí vezmu, zde je tvých 100 orénů","Proč se mi točí celej svět?");
+        ProdavacFisstechu prodavacFisstechu = new ProdavacFisstechu("dealer_fisstechu", "dealer_fisstechu",fisstech, null, "Hej, ty, co chceš? \n" + "Geralt: To jsem si mohl myslet, dealer fisstechu. Lidé, jako jsi ty, jsou ten důvod, proč nosím dva meče \n" + "Dealer_fisstechu: Ale notak, máš přeci lidem pomáhat, ne? \n Dealer_fisstecgu: Pomoz mi - ztratil jsem někde po městě krabičku fisstechu, když mi jí přineseš, dostaneš 100 orénů. \n Geralt: Kdybych ty peníze nepotřeboval... no dobrá, uvidím co zmůžu.","Děkuji mockrát, dobrodinče","Kdybys nebyl zaklínač, tak bych tě bral za blázna","To si s radostí vezmu, zde je tvých 100 orénů","Proč se mi točí celej svět?");
 
         /**
          * Interakce s Kalksteinem
          */
-        Kalkstein kalkstein = new Kalkstein("kalkstein", "Kalkstein", new Vec("magicka_pasta","magicka_pasta", true), glejt, "Nigredo? Ano, tím to bude! Ah, Geralte, co bys rád?\n" + "Geralt: Zdravím Kalksteine, nemáš nápad jak mne dostat do Wyzimy? \n" + "Kalkstein: Samozřejmě, mám zde tento glejt, který zaručuje bezpečný průchod kolem stráží. \n" + "Geralt: Hádám, že to nebude zadarmo. Co bys za něj chtěl? \n" + "Kalkstein: Potřeboval bych jednu dávku magické pasty na svůj nejnovější experiment, kámen živlů se sám nevytvoří. \n" + "Geralt: Dobře tedy, přinesu ti magickou pastu a dostanu glejt, to je dobrý obchod. Měl by jsi ho začít hledat, hned se vrátím. \n" + "Geralt: Sbohem", "Díky za pomoc, Geralte, hodní štěstí na stezce.", "Geralte, tohle není správná chvíle na vtipy.", "Výborně, Geralte, to je přesně to, co potřebuji! \n" + "*Kalkstein vytahuje z koženého tubusu glejt*\n" + "Kalkstein: Díky za pomoc s experimenty zaklínači, zde máš glejt, doufám že se bude hodit. \n" +"Nyní máš glejt. Jdi k bráně a promluv si se stráží", "Přestaň s tím, nebo zavolám stráže!");
+        Kalkstein kalkstein = new Kalkstein("kalkstein", "Kalkstein", new Vec("magicka_pasta","magicka_pasta", true), glejt, "Nigredo? Ano, tím to bude! Ah, Geralte, co bys rád?\n" + "Geralt: Zdravím Kalksteine, nemáš nápad jak se dostat do Wyzimy? \n" + "Kalkstein: Samozřejmě, mám zde tento glejt, který zaručuje bezpečný průchod kolem stráží. \n" + "Geralt: Hádám, že to nebude zadarmo. Co bys za něj chtěl? \n" + "Kalkstein: Potřeboval bych jednu dávku magické pasty na svůj nejnovější experiment, kámen živlů se sám nevytvoří. \n" + "Geralt: Dobře tedy, přinesu ti magickou pastu a dostanu glejt, to je dobrý obchod.\n" + "Geralt: Máš nápad, kde tu pastu seženu? \n Kalkstein: Zkusil bych Savollu, ten má všechno, ale vždyť vy se vlastně znáte, tak co tu povídám... \n Geralt: No právě, uvidím co s ním zmůžu", "Díky za pomoc, Geralte, hodní štěstí na stezce.", "Geralte, tohle není správná chvíle na vtipy.", "Výborně, Geralte, to je přesně to, co potřebuji! \n" + "*Kalkstein vytahuje z koženého tubusu glejt*\n" + "Kalkstein: Díky za pomoc s experimenty zaklínači, zde máš glejt, doufám že se bude hodit. \n" +"Nyní máš glejt. Jdi k bráně a promluv si se stráží", "Přestaň s tím, nebo zavolám stráže!");
 
 
         /**
          * Interakce s hospodským
          */
-        Hospodsky hospodsky = new Hospodsky(this.getInventar(), "hospodsky", "hospodský", stary_glyf, bilyracek, "Zdravím poutníku, co bys rád? \n" + "Geralt: Zdravím hospodský, potřeboval bych silný alkohol, na zlepšení večera \n" + "Hospodský: Samozřejmě, procházel zde nějaký zaklínač, Berengar myslím, nechal zde tuto flašku silného alkoholu bily_racek \n" + "Hospodský: Pokud bys chtěl, můžeš mi najít stary_glyf, dám ti za něj alkohol a 60 orénů \n" + "Hospodsky: Jo a taky jsem slyšel o osobě, která hledá runu Heliotrop. Pokud jí seženeš, tak se ten člověk pohybuje v uličce za hospodou, prý za ní nabízí velkou sumu. \n" + "Geralt: Děkuji, sbohem.", "Myslím, že jsi toho dneska měl už dost, celá flaška je dost i pro zaklínače. \n", "Tohle nechci.", "Děkuji, to se mi bude hodit do sbírky, tady máš 60 orénů a alkohol.", "Co jsi mi to provedl, ty mutante?");
+        Hospodsky hospodsky = new Hospodsky(this.getInventar(), "hospodsky", "hospodsky", stary_glyf, bilyracek, "Zdravím poutníku, co bys rád? \n" + "Geralt: Zdravím hospodský, potřeboval bych silný alkohol, na zlepšení večera \n" + "Hospodský: Samozřejmě, procházel zde nějaký zaklínač, Berengar myslím, nechal zde tuto flašku silného alkoholu bily_racek \n" + "Hospodský: Pokud bys chtěl, můžeš mi najít stary_glyf, dám ti za něj alkohol a 60 orénů \n" + "Hospodsky: Jo a taky jsem slyšel o osobě, která hledá nějaký předmět, pohybuje v uličkách kolem hospody. \n" + "Geralt: Děkuji, zatím.", "Myslím, že jsi toho dneska měl už dost, celá flaška je dost i pro zaklínače. \n", "Tohle nechci.", "Děkuji, to se mi bude hodit do sbírky, tady máš 60 orénů a alkohol.", "Co jsi mi to provedl, ty mutante?");
 
         /**
          * Interakce s Vesemirem
@@ -132,12 +129,12 @@ public class HerniPlan implements SubjectOfChange {
         /**
          * Interakce s pochybným jedincem
          */
-        PochybnyJedinec pochybnyJedinec = new PochybnyJedinec(this.getInventar(), "pochybny_jedinec", "Pochybný jedinec", heliotrop, null, "C-c-co chcete, b-bo-bojovníku? \n" + "Geralt: Neboj se, slyšel jsem že hledáš runu Heliotrop. Je to tak? \n" + "Pochybný jedinec: A-a-ano, je to tak, nabízím za ní 250 orénů. Až jí budeš mít, přijď za mnou, rád jí koupím. Zdejší trpasličí kovář jí potřebuje na výrobu zbroje. \n" + "Geralt: Dobře, poohlédnu se po ní. \n" + "Geralt: Sbohem", "Děkuji zaklínači, nyní už raději jdi, ať nás nikdo nevidí.", "Jsem seriózní obchodník, budu dělat jakoby se nic nestalo.", "Děkuji, zde je 250 orénů, nyní už musím jít..", "Tak to teda ne, na mne ty svoje vědmácký trikz");
+        PochybnyJedinec pochybnyJedinec = new PochybnyJedinec(this.getInventar(), "pochybny_jedinec", "pochybny_jedinec", heliotrop, null, "C-c-co chcete, b-bo-bojovníku? \n" + "Geralt: Neboj se, slyšel jsem že hledáš runu Heliotrop. Je to tak? \n" + "Pochybný jedinec: A-a-ano, je to tak, nabízím za ní 250 orénů. Až jí budeš mít, přijď za mnou, rád jí koupím. Zdejší trpasličí kovář jí potřebuje na výrobu zbroje. \n" + "Geralt: Dobře, poohlédnu se po ní. \n" + "Geralt: Sbohem", "Děkuji zaklínači, nyní už raději jdi, ať nás nikdo nevidí.", "Jsem seriózní obchodník, budu dělat jakoby se nic nestalo.", "Děkuji, zde je 250 orénů, nyní už musím jít..", "Tak to teda ne, na mne ty svoje vědmácký trikz");
 
         /**
          * Interakce se stráží
          */
-        Straz straz = new Straz(this.hra, "straz", "stráž", null, null, "Nech mě na pokoji.", null, "Ještě chvíli to vydržím, pak tě zavřu do žaláře.", null, "Na mě ty tvoje čarovnický triky nefungujou, mám dimeritovou helmu... \n" + "Pokusil jsi se omámit stráž. Byl jsi zavřen do žaláře a svůj úkol jsi nesplnil.");
+        Straz straz = new Straz(this.hra, "straz", "straz", null, null, "Nech mě na pokoji.", null, "Ještě chvíli to vydržím, pak tě zavřu do žaláře.", null, "Na mě ty tvoje čarovnický triky nefungujou, mám dimeritovou helmu... \n" + "Pokusil jsi se omámit stráž. Byl jsi zavřen do žaláře a svůj úkol jsi nesplnil.");
 
         /**
          * Interakce se Savollou
@@ -149,7 +146,7 @@ public class HerniPlan implements SubjectOfChange {
          * Interakce s prodavačem bylin
          */
 
-        ProdejceBylin prodejceBylin = new ProdejceBylin(this.getInventar(), "bylinkar", "bylinkář", zasilka, null, "Kdo jste? neubližujte mi! \n" + "Geralt: Uklidněte se. Jmenuji se Geralt z Rivie. Máte nějaké potíže? \n" + "Prodejce bylin: Ano, někdo mi před chvilkou ukradl zásilku bylin. Popral jsem se s ním, bodnul nožem, ale utekl do uličky dříve, než jsem mu mohl pomoci. \n" + "Geralt: Dobře, podívám se po něm. Zůstaňte tady. \n" + "Prodejce bylin: Dobrá, počkám, ale pospěšte. Mám tady z toho v noci hrůzu.", "Díky za pomoc, cizinče.", null, "Aaaa, můj balíček, ale kde je ten zloděj? \n" + "Geralt: V té uličce, je mrtvý, nedokázal jsem mu pomoci. Rána zasáhla plíci \n" + "Bylinkář: U svaté Melitelé, já ho zabil, co jsem to provedl. \n" + "Geralt: To už je vaše věc, chci pouze odměnu za svoji práci. \n" + "Bylinkář: D-d-d-dobře, zde máte těch 100 orénů, j-j-já se jdu rozmyslet, co udělám", "Ahh, moje hlava, to bude nějaká kletba.");
+        ProdejceBylin prodejceBylin = new ProdejceBylin(this.getInventar(), "bylinkar", "bylinkar", zasilka, null, "Kdo jste? neubližujte mi! \n" + "Geralt: Uklidněte se. Jmenuji se Geralt z Rivie. Máte nějaké potíže? \n" + "Prodejce bylin: Ano, někdo mi před chvilkou ukradl zásilku bylin. Popral jsem se s ním, bodnul nožem, ale utekl do uličky dříve, než jsem mu mohl pomoci. \n" + "Geralt: Dobře, podívám se po něm. Zůstaňte tady. \n" + "Prodejce bylin: Dobrá, počkám, ale pospěšte. Mám tady z toho v noci hrůzu.", "Díky za pomoc, cizinče.", null, "Aaaa, můj balíček, ale kde je ten zloděj? \n" + "Geralt: V té uličce, je mrtvý, nedokázal jsem mu pomoci. Rána zasáhla plíci \n" + "Bylinkář: U svaté Melitelé, já ho zabil, co jsem to provedl. \n" + "Geralt: To už je vaše věc, chci pouze odměnu za svoji práci. \n" + "Bylinkář: D-d-d-dobře, zde máte těch 100 orénů, j-j-já se jdu rozmyslet, co udělám", "Ahh, moje hlava, to bude nějaká kletba.");
 
         /**
          * Mrtvola zloděje, bráno jako postava, se kterou lze provádět interakci prohledat a promluvit (bráno jako zjištění stavu)
@@ -160,7 +157,7 @@ public class HerniPlan implements SubjectOfChange {
          * Wyzimska stráž, postava, která ukončuje hru.
          */
 
-        WyzimskaStraz wyzimskaStraz = new WyzimskaStraz(hra, "wyzimska_straz", "wyzimská_stráž", null, null, null, null, "Kliď se mi z očí, mutante.", null, "Tak a dost!");
+        WyzimskaStraz wyzimskaStraz = new WyzimskaStraz(hra, "wyzimska_straz", "wyzimska_straz", null, null, null, null, "Kliď se mi z očí, mutante.", null, "Tak a dost!");
 
 
         /**

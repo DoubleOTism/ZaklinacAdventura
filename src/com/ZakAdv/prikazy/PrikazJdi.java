@@ -1,5 +1,7 @@
 package com.ZakAdv.prikazy;
 
+import com.ZakAdv.gui.PanelVeci;
+import com.ZakAdv.gui.PanelVychodu;
 import com.ZakAdv.hra.HerniPlan;
 import com.ZakAdv.hra.Prostor;
 
@@ -23,6 +25,7 @@ public class PrikazJdi extends Prikaz {
     public PrikazJdi(HerniPlan plan) {
 
         super("jdi", plan);
+
     }
 
     /**

@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class PanelBatohu implements Observer {
 
@@ -31,7 +32,7 @@ public class PanelBatohu implements Observer {
     public PanelBatohu(Hra hra) {
         this.inventar = hra.getHerniPlan().getInventar();
         inventar.register(this);
-        popisek.setFont(new Font("Arial", 15));
+        popisek.setFont(Font.font("Arial", FontWeight.BOLD, 15));
 
         vBox.getChildren().addAll(popisek, flowPane);
         vBox.setMaxWidth(200.0);
@@ -57,10 +58,13 @@ public class PanelBatohu implements Observer {
         flowPane.getChildren().clear();
         flowPane.getChildren().removeAll();
         for (String vec : inventar.getMnozinaNazvuVeciVInventari()) {
+            Tooltip tooltip = new Tooltip(vec);
             ImageView imageView = new ImageView();
             Image image = new Image(PanelBatohu.class.getResourceAsStream("/" + vec + ".jpg"), 100,100, true, false);
             imageView.setImage(image);
+            Tooltip.install(imageView, tooltip);
             flowPane.getChildren().addAll(imageView);
+
 
 
         }

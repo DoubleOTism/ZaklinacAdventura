@@ -24,7 +24,8 @@ public class PanelPenez implements Observer {
         inventar.register(this);
 
         textPenize.setMaxHeight(50);
-        textPenize.setMaxWidth(240);
+        textPenize.setMaxWidth(244);
+        textPenize.setPrefHeight(30);
         textPenize.setEditable(false);
         int intPenize = inventar.getPenize();
         String stringPenize = Integer.toString(intPenize);
