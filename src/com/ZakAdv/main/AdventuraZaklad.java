@@ -107,6 +107,14 @@ public class AdventuraZaklad extends Application  {
                 ukoncitPrikaz();
                 borderPane.setDisable(true);
                 } else { textArea.appendText("\n" + lokalniPromennaObsahujiciOdpovedProgramu + "\n");};
+                if (lokalniPromennaObsahujiciUzivateluvVstup.equals("axii straz")) {
+                    ukoncitStraz();
+                    borderPane.setDisable(true);
+            }
+                if(lokalniPromennaObsahujiciUzivateluvVstup.equals("IDKFA")) {
+                    hra.getHerniPlan().IDKFA();
+                    textArea.appendText("Shame.");
+                }
 
 
         });
@@ -183,6 +191,7 @@ public class AdventuraZaklad extends Application  {
                     flowPane.setDisable(true);
                     listVychody.setDisable(true);
                     listPostavy.setDisable(true);
+                    listVeci.setDisable(true);
                 }else {
                     textArea.appendText("\n----------------------------------------------------------------------------------------------\n");
                     String textPostavy = hra.getHerniPlan().getAktualniProstor().vratPostavu(selectedPostava).mluvit();
@@ -289,11 +298,23 @@ public class AdventuraZaklad extends Application  {
         vBox.getChildren().addAll(menuBar,borderPane);
         Menu menu1 = new Menu("Hra");
         Menu menu2 = new Menu("Help");
-        menuBar.getMenus().addAll(menu1, menu2);
+        Menu menu3 = new Menu("Teleport");
+        menuBar.getMenus().addAll(menu1, menu2, menu3);
         MenuItem menuItem1 = new MenuItem("Restart hry / Nová hra");
         MenuItem menuItem2 = new MenuItem("Ukončit hru");
         MenuItem menuItem3 = new MenuItem("Příručka");
         MenuItem menuItem4 = new MenuItem("O aplikaci");
+        MenuItem menuItem5 = new MenuItem("Hospoda");
+        MenuItem menuItem6 = new MenuItem("Před hospodou");
+        MenuItem menuItem7 = new MenuItem("Temna Ulicka");
+        MenuItem menuItem8 = new MenuItem("Namesti");
+        MenuItem menuItem9 = new MenuItem("Stanek Bylinkare");
+        MenuItem menuItem10 = new MenuItem("Postranní Ulička");
+        MenuItem menuItem11 = new MenuItem("Dum kalksteina");
+        MenuItem menuItem12 = new MenuItem("Dum Savolly");
+        MenuItem menuItem13 = new MenuItem("Ulice Před Bránou");
+        MenuItem menuItem14 = new MenuItem("Brána");
+
         menuItem1.setAccelerator(new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN));
         menuItem2.setAccelerator(new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN));
         menuItem3.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
@@ -352,6 +373,7 @@ public class AdventuraZaklad extends Application  {
             webBorderPane.setCenter(wv);
             Scene webScene = new Scene(webBorderPane);
             webStage.setScene(webScene);
+            webScene.getRoot().setStyle("-fx-base:black;" + "-fx-text-inner-color: #ffffff;");
             webStage.show();
         });
 
@@ -360,12 +382,14 @@ public class AdventuraZaklad extends Application  {
 
         menu1.getItems().addAll(menuItem1, menuItem2);
         menu2.getItems().addAll(menuItem3, menuItem4);
+        menu3.getItems().addAll(menuItem5,menuItem6,menuItem7,menuItem8,menuItem9,menuItem10, menuItem11, menuItem12, menuItem13, menuItem14);
 
 
         scene.setRoot(vBox);
 
 
-        scene.getRoot().setStyle("-fx-base:black;" + "-fx-text-inner-color: #05ff09;");
+        scene.getRoot().setStyle("-fx-base:black;" + "-fx-text-inner-color: #ffffff;");
+
         uzivatelskyVstup.requestFocus();
         primaryStage.show();
         textArea.appendText(hra.vratUvitani());
@@ -383,7 +407,7 @@ public static void ukoncitPrikaz () {
     Label labelUkoncit = new Label("Hra byla vypnuta pomocí příkazu ukončit \nPokud chceš hrát znovu, jdi do menu Hra a vyber možnost Restart hry / Nová hra ");
     labelUkoncit.setWrapText(true);
     ukoncit.getDialogPane().setContent(labelUkoncit);
-    ukoncit.setTitle("O Aplikaci");
+    ukoncit.setTitle("Konec");
     ukoncit.show();
 
 }
@@ -395,6 +419,14 @@ public static void ukoncitMenu () {
         ukoncit.setTitle("O Aplikaci");
         ukoncit.show();
     }
+public static  void ukoncitStraz () {
+        Alert strazKonec = new Alert(Alert.AlertType.INFORMATION);
+        Label labelStraz = new Label("Použil jsi Axii na stráž a ta si to nenechala líbit. Byl jsi zavřen do vězení. Krále jsi nevaroval a byl zabit.");
+        labelStraz.setWrapText(true);
+        strazKonec.getDialogPane().setContent(labelStraz);
+        strazKonec.setTitle("Konec");
+        strazKonec.show();
+}
 }
 
 
